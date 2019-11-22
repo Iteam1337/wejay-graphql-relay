@@ -1,0 +1,47 @@
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+type Mutation {
+  _empty: String
+  addTrack(input: TrackInput!): [Track!]!
+}
+
+enum PlayerState {
+  Playing
+  Stopped
+  Paused
+  UnknownState
+}
+
+type Query {
+  _empty: String
+  playerState: PlayerState!
+  currentTrack: Track
+  currentQueue: [Track!]!
+}
+
+type Subscription {
+  trackAdded: Track!
+}
+
+type Track {
+  album: String!
+  artist: String!
+  cover: String
+  id: ID!
+  title: String!
+}
+
+input TrackInput {
+  title: String!
+  artist: String!
+  album: String!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+

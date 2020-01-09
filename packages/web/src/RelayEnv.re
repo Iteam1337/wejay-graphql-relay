@@ -9,7 +9,7 @@ let fetchQuery: ReasonRelay.Network.fetchFunctionPromise =
           ~method_=Post,
           ~body=
             Js.Dict.fromList([
-              ("query", Js.Json.string(operation##text)),
+              ("query", Js.Json.string(operation.text)),
               ("variables", variables),
             ])
             |> Js.Json.object_

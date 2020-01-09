@@ -1,12 +1,58 @@
-type response = {
-  .
-  "__$fragment_ref__Queue_query": Queue_query_graphql.t,
-  "__$fragment_ref__NowPlaying_query": NowPlaying_query_graphql.t,
-};
-type variables = unit;
-type operationType = ReasonRelay.queryNode;
+/* @generated */
 
 module Unions = {};
+
+module Types = {};
+
+type response = {
+  __wrappedFragment__NowPlaying_query: ReasonRelay.wrappedFragmentRef,
+  __wrappedFragment__Queue_query: ReasonRelay.wrappedFragmentRef,
+};
+type variables = unit;
+
+module FragmentConverters: {
+  let unwrapFragment_response:
+    response =>
+    {
+      .
+      "__$fragment_ref__NowPlaying_query": NowPlaying_query_graphql.t,
+      "__$fragment_ref__Queue_query": Queue_query_graphql.t,
+    };
+} = {
+  external unwrapFragment_response:
+    response =>
+    {
+      .
+      "__$fragment_ref__NowPlaying_query": NowPlaying_query_graphql.t,
+      "__$fragment_ref__Queue_query": Queue_query_graphql.t,
+    } =
+    "%identity";
+};
+
+module Internal = {
+  type responseRaw;
+  let responseConverter: Js.Dict.t(array((int, string))) = [%raw {| {} |}];
+  let responseConverterMap = ();
+  let convertResponse = v =>
+    v
+    ->ReasonRelay._convertObj(
+        responseConverter,
+        responseConverterMap,
+        Js.undefined,
+      );
+
+  let variablesConverter: Js.Dict.t(array((int, string))) = [%raw {| {} |}];
+  let variablesConverterMap = ();
+  let convertVariables = v =>
+    v
+    ->ReasonRelay._convertObj(
+        variablesConverter,
+        variablesConverterMap,
+        Js.undefined,
+      );
+};
+
+type operationType = ReasonRelay.queryNode;
 
 let node: operationType = [%bs.raw
   {| (function(){

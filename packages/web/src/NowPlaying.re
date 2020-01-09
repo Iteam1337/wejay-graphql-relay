@@ -1,4 +1,4 @@
-module NowPlayingFragment = [%relay.fragment
+module Fragment = [%relay.fragment
   {|
   fragment NowPlaying_query on Query {
     playerState
@@ -13,24 +13,20 @@ module NowPlayingFragment = [%relay.fragment
 
 [@react.component]
 let make = (~query as queryRef) => {
-  let nowPlaying = NowPlayingFragment.use(queryRef);
+  let nowPlaying = Fragment.use(queryRef);
 
-  switch (
-    nowPlaying##playerState->SchemaAssets.Enum_PlayerState.unwrap,
-    nowPlaying##currentTrack->Js.Nullable.toOption,
-  ) {
+  switch (nowPlaying.playerState, nowPlaying.currentTrack) {
+  | (`Stopped, Some(track))
   | (`Playing, Some(track)) =>
     <div>
-      {switch (track##cover->Js.Nullable.toOption) {
+      {switch (track.cover) {
        | Some(src) => <img className="rounded shadow-lg" src />
        | None => React.null
        }}
       <div className="mt-5 text-lg font-semibold">
-        {React.string(track##title)}
+        {React.string(track.title)}
       </div>
-      <div className="text-gray-500 mt-1">
-        {React.string(track##artist)}
-      </div>
+      <div className="text-gray-500 mt-1"> {React.string(track.artist)} </div>
     </div>
   | _ => React.null
   };

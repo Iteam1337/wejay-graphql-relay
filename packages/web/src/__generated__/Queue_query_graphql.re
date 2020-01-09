@@ -1,23 +1,48 @@
+/* @generated */
+
+module Unions = {};
+
+module Types = {
+  type currentQueue = {
+    artist: string,
+    cover: option(string),
+    id: string,
+    title: string,
+  };
+};
+
+open Types;
+
+type fragment = {
+  playerState: SchemaAssets.Enum_PlayerState.t,
+  currentQueue: array(currentQueue),
+};
+
+module FragmentConverters: {} = {};
+
+module Internal = {
+  type fragmentRaw;
+  let fragmentConverter: Js.Dict.t(array((int, string))) = [%raw
+    {| {"playerState":[[2,"enum_PlayerState"]],"currentQueue_cover":[[0,""]]} |}
+  ];
+  let fragmentConverterMap = {
+    "enum_PlayerState": SchemaAssets.Enum_PlayerState.unwrap,
+  };
+  let convertFragment = v =>
+    v
+    ->ReasonRelay._convertObj(
+        fragmentConverter,
+        fragmentConverterMap,
+        Js.undefined,
+      );
+};
+
 type t;
 type fragmentRef;
 type fragmentRefSelector('a) = {.. "__$fragment_ref__Queue_query": t} as 'a;
 external getFragmentRef: fragmentRefSelector('a) => fragmentRef = "%identity";
 
-type fragment = {
-  .
-  "currentQueue":
-    array({
-      .
-      "title": string,
-      "id": string,
-      "cover": Js.Nullable.t(string),
-      "artist": string,
-    }),
-  "playerState": SchemaAssets.Enum_PlayerState.wrapped,
-};
 type operationType = ReasonRelay.fragmentNode;
-
-module Unions = {};
 
 let node: operationType = [%bs.raw
   {| {

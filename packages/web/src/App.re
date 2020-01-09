@@ -37,7 +37,11 @@ let make = () => {
   let query = Query.use(~variables=(), ());
 
   <div className=Style.container>
-    <div className=Style.nowPlaying> <NowPlaying query /> </div>
-    <div className=Style.queue> <Queue query /> </div>
+    <div className=Style.nowPlaying>
+      <NowPlaying query={query->Query.unwrapFragment_response} />
+    </div>
+    <div className=Style.queue>
+      <Queue query={query->Query.unwrapFragment_response} />
+    </div>
   </div>;
 };

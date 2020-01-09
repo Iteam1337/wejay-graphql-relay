@@ -1,4 +1,4 @@
-module QueueFragment = [%relay.fragment
+module Fragment = [%relay.fragment
   {|
   fragment Queue_query on Query {
     playerState
@@ -14,22 +14,20 @@ module QueueFragment = [%relay.fragment
 
 [@react.component]
 let make = (~query as queryRef) => {
-  let queue = QueueFragment.use(queryRef);
+  let queue = Fragment.use(queryRef);
 
-  switch (
-    queue##playerState->SchemaAssets.Enum_PlayerState.unwrap,
-    Belt.Array.length(queue##currentQueue),
-  ) {
+  switch (queue.playerState, Belt.Array.length(queue.currentQueue)) {
   | (_, 0) => <div> {React.string("Nothing queued")} </div>
+  | (`Stopped, _)
   | (`Playing, _) =>
     <div>
       <h2 className="font-semibold pb-4 mb-4 border-b border-gray-300">
         {React.string("Upcoming tracks")}
       </h2>
-      {queue##currentQueue
+      {queue.currentQueue
        ->Belt.Array.map(track =>
-           <div className="flex items-center mb-4" key=track##id>
-             {switch (track##cover->Js.Nullable.toOption) {
+           <div className="flex items-center mb-4" key={track.id}>
+             {switch (track.cover) {
               | Some(src) =>
                 <div className="w-12">
                   <img className="rounded-sm w-full shadow-md" src />
@@ -38,10 +36,10 @@ let make = (~query as queryRef) => {
               }}
              <div className="ml-5">
                <div className="text-gray-700 text-sm">
-                 {React.string(track##title)}
+                 {React.string(track.title)}
                </div>
                <div className="text-gray-500 text-sm">
-                 {React.string(track##artist)}
+                 {React.string(track.artist)}
                </div>
              </div>
            </div>
